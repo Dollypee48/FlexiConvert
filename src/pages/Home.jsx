@@ -4,40 +4,64 @@ import { motion } from "framer-motion";
 import { Code, FileText, RefreshCw } from "lucide-react";
 
 export default function Home() {
-  return (
+ return (
     <main className="min-h-screen bg-gradient-to-br from-[#0a1d42] via-[#1e2d5c] to-[#0a1d42] text-white">
       
-    
-      <section className="py-20 px-4 text-center">
-        <div className="max-w-4xl mx-auto">
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-5xl font-bold mb-4"
-          >
-            Welcome to FlexiConvert
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-lg text-blue-100 mb-8"
-          >
-            Convert JSON, CSV, Excel, SQL, Markdown, and more instantly and securely in your browser.
-          </motion.p>
-          <motion.div whileHover={{ scale: 1.05 }} className="inline-block">
-            <Link
-              to="/convert"
-              className="bg-blue-400 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+      
+      <section className="py-20 px-4">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-12">
+          
+         
+          <div>
+            <motion.h1
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-5xl font-bold mb-4"
             >
-              Explore FlexiConvert
-            </Link>
-          </motion.div>
+              Welcome to FlexiConvert
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="text-lg text-blue-100 mb-8"
+            >
+              Convert JSON, CSV, Excel, SQL, Markdown, and more instantly and securely in your browser.
+            </motion.p>
+            <motion.div whileHover={{ scale: 1.05 }} className="inline-block">
+              <Link
+                to="/convert"
+                className="bg-blue-400 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+              >
+                Explore FlexiConvert
+              </Link>
+            </motion.div>
+          </div>
+
+         
+          <motion.div
+  animate={{
+    scale: [1, 1.05, 1],
+  }}
+  transition={{
+    duration: 5,
+    repeat: Infinity,
+    repeatType: "loop",
+    ease: "easeInOut",
+  }}
+>
+  <img
+    src="https://cdn.pixabay.com/photo/2018/05/08/08/44/artificial-intelligence-3382507_960_720.jpg"
+    alt="Data conversion"
+    className="max-w-[400px] w-full h-auto mx-auto rounded-xl shadow-lg object-cover"
+  />
+</motion.div>
+
         </div>
       </section>
 
-      {/* Feature Highlights Section */}
+      
       <section className="py-16 px-4 bg-white text-gray-800 shadow-inner">
         <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-center">
           <div>
@@ -72,7 +96,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-16 px-4 bg-[#0a1d42] text-white text-center border-t border-blue-900">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold mb-4">Start Converting Instantly</h2>
