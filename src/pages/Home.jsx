@@ -42,7 +42,7 @@ export default function Home() {
          
           <motion.div
   animate={{
-    scale: [1, 1.05, 1],
+    scale: [1, 1.3, 1],
   }}
   transition={{
     duration: 5,

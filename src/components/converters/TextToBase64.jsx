@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Copy, Download, Repeat } from "lucide-react";
 
 export default function TextToBase64() {
   const [text, setText] = useState("");
@@ -9,14 +10,12 @@ export default function TextToBase64() {
   const handleConvert = () => {
     try {
       if (isEncoded) {
-        const encoded = btoa(text);
-        setBase64(encoded);
+        setBase64(btoa(text));
       } else {
-        const decoded = atob(base64);
-        setText(decoded);
+        setText(atob(base64));
       }
-    } catch (err) {
-      alert("Invalid input for conversion.");
+    } catch {
+      alert("❌ Invalid input for conversion.");
     }
   };
 
@@ -28,76 +27,90 @@ export default function TextToBase64() {
   };
 
   const handleDownload = () => {
-    const element = document.createElement("a");
-    const file = new Blob([isEncoded ? base64 : text], { type: "text/plain" });
-    element.href = URL.createObjectURL(file);
-    element.download = isEncoded ? "base64.txt" : "decoded.txt";
-    document.body.appendChild(element);
-    element.click();
+    const blob = new Blob([isEncoded ? base64 : text], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = isEncoded ? "base64.txt" : "decoded.txt";
+    document.body.appendChild(a);
+    a.click();
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white shadow-xl rounded-2xl p-6 space-y-6 border border-gray-200">
-      <h2 className="text-2xl font-bold text-gray-800 text-center">
-        {isEncoded ? "Text ➜ Base64 Converter" : "Base64 ➜ Text Decoder"}
-      </h2>
+    <div className="max-w-4xl mx-auto p-6 rounded-3xl bg-gradient-to-tr from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 shadow-2xl">
+      <header className="text-center mb-8">
+        <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-600">
+          FlexiConvert – {isEncoded ? "Text ⇨ Base64" : "Base64 ⇨ Text"}
+        </h1>
+        <p className="text-gray-500 dark:text-gray-300 mt-1 text-sm">
+          Instantly encode or decode Base64 with a single click.
+        </p>
+      </header>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-600 mb-1">
-          {isEncoded ? "Enter Text" : "Enter Base64"}
+      <div className="mb-6">
+        <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+          📥 {isEncoded ? "Input Text" : "Input Base64"}
         </label>
         <textarea
-          rows={6}
+          className="w-full h-44 p-4 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition"
+          placeholder={
+            isEncoded
+              ? "Paste plain text to encode..."
+              : "Paste Base64 string to decode..."
+          }
           value={isEncoded ? text : base64}
           onChange={(e) =>
             isEncoded ? setText(e.target.value) : setBase64(e.target.value)
           }
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm resize-none"
-          placeholder={
-            isEncoded ? "Type or paste plain text..." : "Paste Base64 string..."
-          }
         />
       </div>
 
-      <button
-        onClick={handleConvert}
-        className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition font-medium"
-      >
-        Convert
-      </button>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-600 mb-1">
-          Output
-        </label>
-        <textarea
-          rows={6}
-          readOnly
-          value={isEncoded ? base64 : text}
-          className="w-full p-3 border border-gray-200 bg-gray-50 rounded-lg text-sm resize-none"
-          placeholder="Your result will appear here..."
-        />
-      </div>
-
-      <div className="flex justify-between items-center gap-3 text-sm">
+      <div className="flex justify-between items-center mb-8">
         <button
-          onClick={handleCopy}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+          onClick={handleConvert}
+          className="px-6 py-2 rounded-lg bg-gradient-to-r from-blue-700 to-teal-700 hover:from-purple-600 hover:to-teal-800 text-white font-semibold transition shadow-md hover:shadow-lg"
         >
-          {copied ? "Copied!" : "Copy"}
+          Convert
         </button>
-        <button
-          onClick={handleDownload}
-          className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 transition"
-        >
-          Download .txt
-        </button>
+
         <button
           onClick={() => setIsEncoded(!isEncoded)}
-          className="ml-auto text-blue-600 hover:underline font-medium"
+          className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-medium hover:underline transition text-sm"
         >
-          Switch to {isEncoded ? "Base64 ➜ Text" : "Text ➜ Base64"}
+          <Repeat size={16} />
+          {isEncoded ? "Switch to Base64 ⇨ Text" : "Switch to Text ⇨ Base64"}
         </button>
+      </div>
+
+      <div>
+        <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+          📤 Output
+        </label>
+        <div className="relative">
+          <textarea
+            readOnly
+            className="w-full h-48 p-4 text-sm rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-100 font-mono"
+            value={isEncoded ? base64 : text}
+            placeholder="Result will appear here..."
+          />
+          <div className="absolute top-3 right-3 flex gap-2">
+            <button
+              onClick={handleCopy}
+              className="flex items-center gap-1 px-3 py-1.5 bg-gray-800 text-white text-xs font-semibold rounded-md hover:bg-gray-900 transition"
+            >
+              <Copy size={14} />
+              {copied ? "Copied!" : "Copy"}
+            </button>
+
+            <button
+              onClick={handleDownload}
+              className="flex items-center gap-1 px-3 py-1.5 bg-gray-800 text-white text-xs font-semibold rounded-md hover:bg-gray-900 transition"
+            >
+              <Download size={14} />
+              Download
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

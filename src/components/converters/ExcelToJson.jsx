@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
-import { ClipboardIcon } from "@heroicons/react/24/outline";
+import { Copy } from "lucide-react";
 
 export default function ExcelToJson() {
   const [jsonOutput, setJsonOutput] = useState("");
@@ -11,7 +11,6 @@ export default function ExcelToJson() {
     if (!file) return;
 
     const reader = new FileReader();
-
     reader.onload = (evt) => {
       const data = evt.target.result;
       const workbook = XLSX.read(data, { type: "binary" });
@@ -19,7 +18,6 @@ export default function ExcelToJson() {
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
       setJsonOutput(JSON.stringify(jsonData, null, 2));
     };
-
     reader.readAsBinaryString(file);
   };
 
@@ -31,32 +29,48 @@ export default function ExcelToJson() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-6 border border-blue-900">
-      <h2 className="text-2xl font-bold text-blue-900 mb-4">📊 Excel ⇨ JSON Converter</h2>
+    <div className="max-w-4xl mx-auto p-6 rounded-3xl bg-gradient-to-tr from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 shadow-2xl">
+      <header className="text-center mb-8">
+        <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-600">
+          Excel ⇨ JSON Converter
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300 mt-1 text-sm">
+          Easily transform your Excel spreadsheets into clean, readable JSON.
+        </p>
+      </header>
 
-      <input
-        type="file"
-        accept=".xlsx, .xls"
-        onChange={handleFileUpload}
-        className="block w-full text-gray-700 border border-blue-800 rounded-md p-2 mb-4 cursor-pointer bg-blue-50"
-      />
-
-      <label className="block text-sm font-medium text-gray-800 mb-1">Converted Output:</label>
-      <div className="relative">
-        <textarea
-          readOnly
-          rows={14}
-          value={jsonOutput}
-          className="w-full p-3 border border-blue-800 rounded-md bg-gray-100 text-sm font-mono text-gray-800"
-          placeholder="Converted JSON will appear here..."
+      <div className="mb-6">
+        <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+          📂 Upload Excel File
+        </label>
+        <input
+          type="file"
+          accept=".xlsx, .xls"
+          onChange={handleFileUpload}
+          className="w-full px-4 py-3 text-sm text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 transition"
         />
-        <button
-          onClick={handleCopy}
-          className="absolute top-2 right-2 text-blue-800 hover:text-blue-900 bg-white border border-blue-800 px-2 py-1 rounded-md flex items-center space-x-1 text-sm"
-        >
-          <ClipboardIcon className="h-4 w-4" />
-          <span>{copied ? "Copied!" : "Copy"}</span>
-        </button>
+      </div>
+
+      <div>
+        <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+          📤 JSON Output
+        </label>
+        <div className="relative">
+          <textarea
+            readOnly
+            rows={14}
+            value={jsonOutput}
+            placeholder="Converted JSON will appear here..."
+            className="w-full p-4 text-sm font-mono rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 shadow-inner resize-none"
+          />
+          <button
+            onClick={handleCopy}
+            className="absolute top-3 right-3 flex items-center gap-1 px-3 py-1.5 bg-yellow-600 text-white text-xs font-semibold rounded-md hover:bg-yellow-700 transition"
+          >
+            <Copy size={14} />
+            {copied ? "Copied!" : "Copy"}
+          </button>
+        </div>
       </div>
     </div>
   );
