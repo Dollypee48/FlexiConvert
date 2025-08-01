@@ -1,13 +1,19 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export function Card({ children, className = "" }) {
   return (
-    <div className={`rounded-2xl shadow-md bg-white dark:bg-gray-800 p-4 ${className}`}>
+    <section
+      className={`bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 ease-in-out ${className}`}
+      role="region"
+      aria-label="Card section"
+    >
       {children}
-    </div>
+    </section>
   );
 }
 
-export function CardContent({ children, className = "" }) {
-  return <div className={className}>{children}</div>;
-}
+Card.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};

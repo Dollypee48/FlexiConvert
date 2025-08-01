@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
+import About from '../pages/About'
 import ConverterPage from '../pages/ConverterPage';
 import JsonToCsv from '../components/converters/JsonToCsv';
 import CsvToExcel from '../components/converters/CsvToExcel';
@@ -21,6 +22,7 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About/>} />
       <Route path="/convert" element={withBackground(ConverterPage)} />
       <Route path="/convert/json-to-csv" element={withBackground(JsonToCsv)} />
       <Route path="/convert/csv-to-excel" element={withBackground(CsvToExcel)} />
